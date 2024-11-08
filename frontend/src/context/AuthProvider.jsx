@@ -6,6 +6,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [blogs, setBlogs] = useState();
   const [profile, setProfile] = useState();
+  const [selecteCourseByUser,setSelecteCourseByUser] = useState({});
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
@@ -16,7 +17,7 @@ export const AuthProvider = ({ children }) => {
         console.log(token);
         if (token) {
           const { data } = await axios.get(
-            "http://localhost:4001/api/users/my-profile",
+            `${import.meta.env.VITE_BACKEND_URL}/api/users/my-profile`,
             {
               withCredentials: true,
               headers: {
@@ -36,7 +37,7 @@ export const AuthProvider = ({ children }) => {
     const fetchBlogs = async () => {
       try {
         const { data } = await axios.get(
-          "http://localhost:4001/api/blogs/all-blogs",
+          `${import.meta.env.VITE_BACKEND_URL}/api/blogs/all-blogs`,
           { withCredentials: true }
         );
         console.log(data);
@@ -56,6 +57,8 @@ export const AuthProvider = ({ children }) => {
         blogs,
         profile,
         setProfile,
+        selecteCourseByUser,
+        setSelecteCourseByUser,
         isAuthenticated,
         setIsAuthenticated,
       }}

@@ -11,35 +11,20 @@ const userSchema = new mongoose.Schema({
     unique: true,
     validate: [validator.isEmail, "Please enter a valid email"],
   },
-  phone: {
-    type: Number,
-    required: true,
-    unique: true,
-  },
-  photo: {
-    public_id: {
-      type: String,
-      required: true,
-    },
-    url: {
-      type: String,
-      required: true,
-    },
-  },
   education: {
     type: String,
     required: true,
   },
   role: {
     type: String,
-    required: true,
     enum: ["user", "admin"],
+    default: "user"
   },
   password: {
     type: String,
     required: true,
     select: false,
-    minlength: 8,
+    minlength: [5,"password must be minimum length of 5 "],
   },
   token: {
     type: String,

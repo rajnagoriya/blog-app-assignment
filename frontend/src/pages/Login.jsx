@@ -10,15 +10,16 @@ function Login() {
   const navigateTo = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("");
+  
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
+      console.log("handle login called !!!");
       const { data } = await axios.post(
-        "http://localhost:4001/api/users/login",
-        { email, password, role },
+        `${import.meta.env.VITE_BACKEND_URL}/api/users/login`,
+        { email, password },
         {
           withCredentials: true,
           headers: {
@@ -26,22 +27,21 @@ function Login() {
           },
         }
       );
-      console.log(data);
+      
       // Store the token in localStorage
       localStorage.setItem("jwt", data.token); // storing token in localStorage so that if user refreshed the page it will not redirect again in login
-      toast.success(data.message || "User Logined successfully", {
+      toast.success(data.message || "User Login successfully", {
         duration: 3000,
       });
       setProfile(data);
       setIsAuthenticated(true);
       setEmail("");
       setPassword("");
-      setRole("");
       navigateTo("/");
     } catch (error) {
       console.log(error);
       toast.error(
-        error.response.data.message || "Please fill the required fields",
+        error.response.data.message || error.response.data.error || "Faield to login",
         {
           duration: 3000,
         }
@@ -55,19 +55,10 @@ function Login() {
         <div className="w-full max-w-md bg-white shadow-md rounded-lg p-8">
           <form onSubmit={handleLogin}>
             <div className="font-semibold text-xl items-center text-center">
-              Cilli<span className="text-blue-500">Blog</span>
+            SciAstra
             </div>
             <h1 className="text-xl font-semibold mb-6">Login</h1>
-            <select
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              className="w-full p-2 mb-4 border rounded-md"
-            >
-              <option value="">Select Role</option>
-              <option value="user">user</option>
-              <option value="admin">admin</option>
-            </select>
-
+            
             <div className="mb-4">
               <input
                 type="email"

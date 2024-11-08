@@ -29,7 +29,7 @@ function UpdateBlog() {
     const fetchBlog = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:4001/api/blogs/single-blog/${id}`,
+          `${import.meta.env.VITE_BACKEND_URL}/api/blogs/single-blog/${id}`,
 
           {
             withCredentials: true,
@@ -45,7 +45,7 @@ function UpdateBlog() {
         setBlogImage(data?.blogImage.url);
       } catch (error) {
         console.log(error);
-        toast.error("Please fill the required fields");
+        toast.error("faield to load blog ");
       }
     };
     fetchBlog();
@@ -61,7 +61,7 @@ function UpdateBlog() {
     formData.append("blogImage", blogImage);
     try {
       const { data } = await axios.put(
-        `http://localhost:4001/api/blogs/update/${id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/blogs/update/${id}`,
         formData,
         {
           withCredentials: true,
@@ -76,7 +76,7 @@ function UpdateBlog() {
     } catch (error) {
       console.log(error);
       toast.error(
-        error.response.data.message || "Please fill the required fields"
+        error.response.data.message || "faield to update blog"
       );
     }
   };
@@ -109,25 +109,6 @@ function UpdateBlog() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
-            <div className="mb-4">
-              <label className="block mb-2 font-semibold">BLOG IMAGE</label>
-              <img
-                src={
-                  blogImagePreview
-                    ? blogImagePreview
-                    : blogImage
-                    ? blogImage
-                    : "/imgPL.webp"
-                }
-                alt="Blog Main"
-                className="w-full h-48 object-cover mb-4 rounded-md"
-              />
-              <input
-                type="file"
-                className="w-full p-2 border rounded-md"
-                onChange={changePhotoHandler}
-              />
-            </div>
             <textarea
               rows="6"
               className="w-full p-2 mb-4 border rounded-md"

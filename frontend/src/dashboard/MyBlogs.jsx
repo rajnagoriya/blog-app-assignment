@@ -9,7 +9,7 @@ function MyBlogs() {
     const fetchMyBlogs = async () => {
       try {
         const { data } = await axios.get(
-          "http://localhost:4001/api/blogs/my-blog",
+          `${import.meta.env.VITE_BACKEND_URL}/api/blogs/my-blog`,
           { withCredentials: true }
         );
         console.log(data);
@@ -23,7 +23,7 @@ function MyBlogs() {
 
   const handleDelete = async (id) => {
     await axios
-      .delete(`http://localhost:4001/api/blogs/delete/${id}`, {
+      .delete(`${import.meta.env.VITE_BACKEND_URL}/api/blogs/delete/${id}`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -44,13 +44,6 @@ function MyBlogs() {
                 className="bg-white shadow-lg rounded-lg overflow-hidden"
                 key={element._id}
               >
-                {element?.blogImage && (
-                  <img
-                    src={element?.blogImage.url}
-                    alt="blogImg"
-                    className="w-full h-48 object-cover"
-                  />
-                )}
                 <div className="p-4">
                   <span className="text-sm text-gray-600">
                     {element.category}

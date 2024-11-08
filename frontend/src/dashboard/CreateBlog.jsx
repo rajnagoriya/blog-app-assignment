@@ -7,19 +7,6 @@ function CreateBlog() {
   const [category, setCategory] = useState("");
   const [about, setAbout] = useState("");
 
-  const [blogImage, setBlogImage] = useState("");
-  const [blogImagePreview, setBlogImagePreview] = useState("");
-
-  const changePhotoHandler = (e) => {
-    console.log(e);
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      setBlogImagePreview(reader.result);
-      setBlogImage(file);
-    };
-  };
 
   const handleCreateBlog = async (e) => {
     e.preventDefault();
@@ -27,11 +14,9 @@ function CreateBlog() {
     formData.append("title", title);
     formData.append("category", category);
     formData.append("about", about);
-
-    formData.append("blogImage", blogImage);
     try {
       const { data } = await axios.post(
-        "http://localhost:4001/api/blogs/create",
+        `${import.meta.env.VITE_BACKEND_URL}/api/blogs/create`,
         formData,
         {
           withCredentials: true,
@@ -41,15 +26,13 @@ function CreateBlog() {
         }
       );
       console.log(data);
-      toast.success(data.message || "User registered successfully");
+      toast.success(data.message || "blog created successfully");
       setTitle("");
       setCategory("");
       setAbout("");
-      setBlogImage("");
-      setBlogImagePreview("");
     } catch (error) {
       console.log(error);
-      toast.error(error.message || "Please fill the required fields");
+      toast.error(error.message || "Faield to create blog ");
     }
   };
   return (
@@ -81,22 +64,6 @@ function CreateBlog() {
                 placeholder="Enter your blog title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-400   rounded-md outline-none"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label className="block text-lg">Blog Image</label>
-              <div className="flex items-center justify-center">
-                <img
-                  src={blogImagePreview ? `${blogImagePreview}` : "/imgPL.webp"}
-                  alt="Image"
-                  className="w-full max-w-sm h-auto rounded-md object-cover"
-                />
-              </div>
-              <input
-                type="file"
-                onChange={changePhotoHandler}
                 className="w-full px-3 py-2 border border-gray-400   rounded-md outline-none"
               />
             </div>

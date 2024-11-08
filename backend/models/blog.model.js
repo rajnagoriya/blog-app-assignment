@@ -4,17 +4,6 @@ const blogSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-
-  blogImage: {
-    public_id: {
-      type: String,
-      required: true,
-    },
-    url: {
-      type: String,
-      required: true,
-    },
-  },
   category: {
     type: String,
     required: true,
@@ -25,9 +14,6 @@ const blogSchema = new mongoose.Schema({
     minlength: [200, "Should caontain atleast 200 characters!"],
   },
   adminName: {
-    type: String,
-  },
-  adminPhoto: {
     type: String,
   },
   createdBy: {
